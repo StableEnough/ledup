@@ -1,8 +1,21 @@
 {
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "extends": ["config:recommended"],
+  "extends": [
+    "config:recommended"
+  ],
   "timezone": "America/Denver",
-  "labels": ["renovate"],
+  "labels": [
+    "renovate"
+  ],
   "prHourlyLimit": 2,
-  "dependencyDashboard": true
+  "dependencyDashboard": true,
+  "packageRules": [
+    {
+      "description": "No Python pre-releases: 3.15 is alpha (dbus_next breaks on it). Raise once 3.15.0 final ships.",
+      "matchDepNames": [
+        "python"
+      ],
+      "allowedVersions": "<3.15"
+    }
+  ]
 }

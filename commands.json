@@ -1,0 +1,1010 @@
+{
+  "wtrtd200f": {
+    "page": 1,
+    "commands": [
+      {
+        "key": 1,
+        "label": "Light"
+      },
+      {
+        "key": 16,
+        "label": "Switch"
+      },
+      {
+        "key": 11,
+        "label": "Clock"
+      },
+      {
+        "key": 5,
+        "label": "Steady"
+      },
+      {
+        "key": 18,
+        "label": "Twinkling"
+      },
+      {
+        "key": 15,
+        "label": "Jump TW by Layer"
+      },
+      {
+        "key": 23,
+        "label": "Random Blink"
+      },
+      {
+        "key": 17,
+        "label": "Cascading Chase"
+      },
+      {
+        "key": 14,
+        "label": "Firefly"
+      },
+      {
+        "key": 22,
+        "label": "Firefly Up&Down"
+      },
+      {
+        "key": 19,
+        "label": "Slow Twinkle"
+      },
+      {
+        "key": 12,
+        "label": "Up&Down Chase"
+      },
+      {
+        "key": 25,
+        "label": "Fireworks Per Layer"
+      },
+      {
+        "key": 20,
+        "label": "Fireworks Per Panel"
+      },
+      {
+        "key": 10,
+        "label": "Color Flip Up&Down"
+      },
+      {
+        "key": 24,
+        "label": "C.C. Up&Down"
+      },
+      {
+        "key": 6,
+        "label": "C.C.Spiral Up&Down"
+      },
+      {
+        "key": 7,
+        "label": "Color Morph"
+      },
+      {
+        "key": 21,
+        "label": "C.C. Sequence"
+      },
+      {
+        "key": 9,
+        "label": "Rainbow"
+      },
+      {
+        "key": 8,
+        "label": "Light Show"
+      }
+    ]
+  },
+  "ptr043f": {
+    "page": 2,
+    "commands": [
+      {
+        "key": 16,
+        "label": "Switch"
+      },
+      {
+        "key": 5,
+        "label": "Clock"
+      },
+      {
+        "key": 15,
+        "label": "Light Show"
+      },
+      {
+        "key": 23,
+        "label": "Arrow"
+      },
+      {
+        "key": 17,
+        "label": "Diamond"
+      },
+      {
+        "key": 14,
+        "label": "Diagonal"
+      },
+      {
+        "key": 22,
+        "label": "Multi Spray"
+      },
+      {
+        "key": 19,
+        "label": "Sparkle 1"
+      },
+      {
+        "key": 12,
+        "label": "Sparkle 2"
+      },
+      {
+        "key": 25,
+        "label": "Rainbow"
+      },
+      {
+        "key": 20,
+        "label": "RGW Stripe"
+      },
+      {
+        "key": 10,
+        "label": "RWB Stripe"
+      },
+      {
+        "key": 24,
+        "label": "Circus"
+      },
+      {
+        "key": 6,
+        "label": "Zig Zag"
+      },
+      {
+        "key": 7,
+        "label": "RG ZigZag"
+      },
+      {
+        "key": 21,
+        "label": "Merge"
+      },
+      {
+        "key": 9,
+        "label": "Color Cycle"
+      },
+      {
+        "key": 8,
+        "label": "Solid Wave"
+      }
+    ]
+  },
+  "ptr002m": {
+    "page": 3,
+    "commands": [
+      {
+        "key": 16,
+        "label": "Switch"
+      },
+      {
+        "key": 17,
+        "label": "Music"
+      },
+      {
+        "key": 19,
+        "label": "Volume"
+      },
+      {
+        "key": 6,
+        "label": "Clock"
+      }
+    ]
+  },
+  "wtr116f": {
+    "page": 4,
+    "commands": [
+      {
+        "key": 16,
+        "label": "Switch"
+      },
+      {
+        "key": 5,
+        "label": "Light"
+      },
+      {
+        "key": 15,
+        "label": "Clock"
+      },
+      {
+        "key": 23,
+        "label": "Steady"
+      },
+      {
+        "key": 17,
+        "label": "Glisten"
+      },
+      {
+        "key": 14,
+        "label": "Firefly"
+      },
+      {
+        "key": 22,
+        "label": "Twinkling"
+      },
+      {
+        "key": 19,
+        "label": "Random Twinkle"
+      },
+      {
+        "key": 12,
+        "label": "Chasing"
+      },
+      {
+        "key": 25,
+        "label": "2 Color Variable"
+      },
+      {
+        "key": 20,
+        "label": "Fireworks"
+      },
+      {
+        "key": 10,
+        "label": "7 Color Morphing"
+      },
+      {
+        "key": 24,
+        "label": "7 Color Slow Fade"
+      },
+      {
+        "key": 7,
+        "label": "Light Show"
+      },
+      {
+        "key": 21,
+        "label": "Select Favorite"
+      },
+      {
+        "key": 9,
+        "label": "Play Favorite"
+      },
+      {
+        "key": 8,
+        "label": "Cycle Favorite"
+      }
+    ]
+  },
+  "ptrs052f": {
+    "page": 5,
+    "commands": [
+      {
+        "key": 16,
+        "label": "Switch"
+      },
+      {
+        "key": 5,
+        "label": "Light"
+      },
+      {
+        "key": 15,
+        "label": "Clock"
+      },
+      {
+        "key": 23,
+        "label": "Steady"
+      },
+      {
+        "key": 17,
+        "label": "Branch Flash"
+      },
+      {
+        "key": 14,
+        "label": "Layer Flash"
+      },
+      {
+        "key": 22,
+        "label": "Firefly"
+      },
+      {
+        "key": 19,
+        "label": "Snowing"
+      },
+      {
+        "key": 12,
+        "label": "Pulsating"
+      },
+      {
+        "key": 25,
+        "label": "Volcano"
+      },
+      {
+        "key": 20,
+        "label": "Color Dance"
+      },
+      {
+        "key": 10,
+        "label": "Moving Horizon"
+      },
+      {
+        "key": 24,
+        "label": "Tornado"
+      },
+      {
+        "key": 6,
+        "label": "Bouncing Ring"
+      },
+      {
+        "key": 7,
+        "label": "Light Show"
+      }
+    ]
+  },
+  "ctr015f": {
+    "page": 6,
+    "commands": [
+      {
+        "key": 16,
+        "label": "Switch"
+      },
+      {
+        "key": 5,
+        "label": "Light"
+      },
+      {
+        "key": 15,
+        "label": "Clock"
+      },
+      {
+        "key": 23,
+        "label": "Steady WW"
+      },
+      {
+        "key": 17,
+        "label": "Steady MLT"
+      },
+      {
+        "key": 14,
+        "label": "Steady Pastel"
+      },
+      {
+        "key": 22,
+        "label": "Twinkle WW"
+      },
+      {
+        "key": 19,
+        "label": "Twinkle MLT"
+      },
+      {
+        "key": 12,
+        "label": "Slow Fade"
+      },
+      {
+        "key": 25,
+        "label": "Color Flip"
+      },
+      {
+        "key": 20,
+        "label": "Color Flip Twinkle"
+      },
+      {
+        "key": 10,
+        "label": "WW Phase"
+      },
+      {
+        "key": 24,
+        "label": "MLT Phase"
+      },
+      {
+        "key": 6,
+        "label": "Pastel Phase"
+      },
+      {
+        "key": 7,
+        "label": "Slow Glisten"
+      },
+      {
+        "key": 21,
+        "label": "Fast Glisten"
+      },
+      {
+        "key": 9,
+        "label": "3 Color Slow"
+      },
+      {
+        "key": 8,
+        "label": "3 Color Fast"
+      }
+    ]
+  },
+  "ctr010f": {
+    "page": 7,
+    "commands": [
+      {
+        "key": 16,
+        "label": "Switch"
+      },
+      {
+        "key": 170,
+        "label": "Demo"
+      },
+      {
+        "key": 17,
+        "label": "Dimmer"
+      },
+      {
+        "key": 14,
+        "label": "Clock"
+      },
+      {
+        "key": 22,
+        "label": "Steady WW"
+      },
+      {
+        "key": 19,
+        "label": "Steady MLT"
+      },
+      {
+        "key": 12,
+        "label": "Slow Fade WW"
+      },
+      {
+        "key": 25,
+        "label": "Slow Fade MLT"
+      },
+      {
+        "key": 20,
+        "label": "Twinkle WW"
+      },
+      {
+        "key": 10,
+        "label": "Twinkle MLT"
+      },
+      {
+        "key": 24,
+        "label": "Fast Flip"
+      },
+      {
+        "key": 6,
+        "label": "Slow Flip"
+      },
+      {
+        "key": 7,
+        "label": "Slow Fade"
+      }
+    ]
+  },
+  "nctr010f": {
+    "page": 8,
+    "commands": [
+      {
+        "key": 16,
+        "label": "Switch"
+      },
+      {
+        "key": 170,
+        "label": "Demo"
+      },
+      {
+        "key": 17,
+        "label": "Dimmer"
+      },
+      {
+        "key": 14,
+        "label": "Clock"
+      },
+      {
+        "key": 22,
+        "label": "Steady WW"
+      },
+      {
+        "key": 19,
+        "label": "Steady MLT"
+      },
+      {
+        "key": 12,
+        "label": "Twinkle WW"
+      },
+      {
+        "key": 25,
+        "label": "Slow Fade WW"
+      },
+      {
+        "key": 20,
+        "label": "Slow Fade MLT"
+      },
+      {
+        "key": 10,
+        "label": "Slow Color Variable"
+      },
+      {
+        "key": 24,
+        "label": "Fast Flip"
+      },
+      {
+        "key": 6,
+        "label": "Slow Flip"
+      },
+      {
+        "key": 7,
+        "label": "Slow Fade"
+      }
+    ]
+  },
+  "nptr043fm": {
+    "page": 9,
+    "commands": [
+      {
+        "key": 16,
+        "label": "Switch"
+      },
+      {
+        "key": 23,
+        "label": "Clock"
+      },
+      {
+        "key": 17,
+        "label": "Volume"
+      },
+      {
+        "key": 14,
+        "label": "Pattern"
+      },
+      {
+        "key": 22,
+        "label": "Patriotic"
+      },
+      {
+        "key": 19,
+        "label": "Halloween"
+      },
+      {
+        "key": 12,
+        "label": "Christmas"
+      },
+      {
+        "key": 25,
+        "label": "New Year"
+      },
+      {
+        "key": 10,
+        "label": "Musical"
+      },
+      {
+        "key": 24,
+        "label": "Light Show A"
+      },
+      {
+        "key": 7,
+        "label": "Light Show H"
+      }
+    ]
+  },
+  "nctr015f": {
+    "page": 10,
+    "commands": [
+      {
+        "key": 16,
+        "label": "Switch"
+      },
+      {
+        "key": 5,
+        "label": "Dimmer"
+      },
+      {
+        "key": 15,
+        "label": "Clock"
+      },
+      {
+        "key": 170,
+        "label": "Demo"
+      },
+      {
+        "key": 17,
+        "label": "Steady WW"
+      },
+      {
+        "key": 14,
+        "label": "Steady MLT"
+      },
+      {
+        "key": 22,
+        "label": "Slow Fade WW"
+      },
+      {
+        "key": 19,
+        "label": "Slow Fade MLT"
+      },
+      {
+        "key": 12,
+        "label": "WW Phase"
+      },
+      {
+        "key": 25,
+        "label": "Fast Glisten"
+      },
+      {
+        "key": 20,
+        "label": "Slow Glisten"
+      },
+      {
+        "key": 10,
+        "label": "Slow Color Variable"
+      },
+      {
+        "key": 24,
+        "label": "Fast Flip"
+      },
+      {
+        "key": 6,
+        "label": "Slow Flip"
+      },
+      {
+        "key": 7,
+        "label": "Fast Fade"
+      },
+      {
+        "key": 21,
+        "label": "Slow Fade"
+      },
+      {
+        "key": 9,
+        "label": "WW Flash"
+      },
+      {
+        "key": 8,
+        "label": "MLT Flash"
+      }
+    ]
+  },
+  "ctr016f": {
+    "page": 11,
+    "commands": [
+      {
+        "key": 16,
+        "label": "Switch"
+      },
+      {
+        "key": 5,
+        "label": "Light"
+      },
+      {
+        "key": 18,
+        "label": "Light Show"
+      },
+      {
+        "key": 15,
+        "label": "Clock"
+      },
+      {
+        "key": 23,
+        "label": "Steady WW"
+      },
+      {
+        "key": 17,
+        "label": "Steady MLT"
+      },
+      {
+        "key": 14,
+        "label": "Steady Pastel"
+      },
+      {
+        "key": 22,
+        "label": "Twinkle WW"
+      },
+      {
+        "key": 19,
+        "label": "Twinkle MLT"
+      },
+      {
+        "key": 12,
+        "label": "Slow Fade"
+      },
+      {
+        "key": 25,
+        "label": "Color Flip"
+      },
+      {
+        "key": 20,
+        "label": "Color Flip Twinkle"
+      },
+      {
+        "key": 10,
+        "label": "WW Phase"
+      },
+      {
+        "key": 24,
+        "label": "MLT Phase"
+      },
+      {
+        "key": 6,
+        "label": "Pastel Phase"
+      },
+      {
+        "key": 7,
+        "label": "Slow Glisten"
+      },
+      {
+        "key": 21,
+        "label": "Fast Glisten"
+      },
+      {
+        "key": 9,
+        "label": "3 Color Slow"
+      },
+      {
+        "key": 8,
+        "label": "3 Color Fast"
+      }
+    ]
+  },
+  "ctr018f": {
+    "page": 12,
+    "commands": [
+      {
+        "key": 1,
+        "label": "Light"
+      },
+      {
+        "key": 16,
+        "label": "Switch"
+      },
+      {
+        "key": 11,
+        "label": "Clock"
+      },
+      {
+        "key": 5,
+        "label": "Steady WW"
+      },
+      {
+        "key": 18,
+        "label": "Steady Multi"
+      },
+      {
+        "key": 15,
+        "label": "Steady Pastel"
+      },
+      {
+        "key": 23,
+        "label": "Sparkle WW"
+      },
+      {
+        "key": 17,
+        "label": "Sparkle Multi"
+      },
+      {
+        "key": 14,
+        "label": "Sparkle Color Flip"
+      },
+      {
+        "key": 22,
+        "label": "Fade WW"
+      },
+      {
+        "key": 19,
+        "label": "Fade Multi"
+      },
+      {
+        "key": 12,
+        "label": "Fade Pastel"
+      },
+      {
+        "key": 25,
+        "label": "Color Flip 1"
+      },
+      {
+        "key": 20,
+        "label": "Color Flip 2"
+      },
+      {
+        "key": 10,
+        "label": "Color Flip 3"
+      },
+      {
+        "key": 24,
+        "label": "Color Flip 1 Fade"
+      },
+      {
+        "key": 6,
+        "label": "Color Flip 2 Fade"
+      },
+      {
+        "key": 7,
+        "label": "Color Flip 3 Fade"
+      },
+      {
+        "key": 21,
+        "label": "Flicker WW"
+      },
+      {
+        "key": 9,
+        "label": "Flicker Multi"
+      },
+      {
+        "key": 8,
+        "label": "Demo"
+      }
+    ]
+  },
+  "nctr016f": {
+    "page": 13,
+    "commands": [
+      {
+        "key": 16,
+        "label": "Switch"
+      },
+      {
+        "key": 5,
+        "label": "Light"
+      },
+      {
+        "key": 18,
+        "label": "Light Show"
+      },
+      {
+        "key": 15,
+        "label": "Clock"
+      },
+      {
+        "key": 23,
+        "label": "Steady WW"
+      },
+      {
+        "key": 17,
+        "label": "Steady MLT"
+      },
+      {
+        "key": 14,
+        "label": "Twinkle WW"
+      },
+      {
+        "key": 22,
+        "label": "Slow Fade WW"
+      },
+      {
+        "key": 19,
+        "label": "Slow Fade MLT"
+      },
+      {
+        "key": 12,
+        "label": "WW Phase"
+      },
+      {
+        "key": 25,
+        "label": "Fast Glisten"
+      },
+      {
+        "key": 20,
+        "label": "Slow Glisten"
+      },
+      {
+        "key": 10,
+        "label": "Slow Color Variable"
+      },
+      {
+        "key": 24,
+        "label": "Fast Flip"
+      },
+      {
+        "key": 6,
+        "label": "Slow Flip"
+      },
+      {
+        "key": 7,
+        "label": "Fast Fade"
+      },
+      {
+        "key": 21,
+        "label": "Slow Fade"
+      },
+      {
+        "key": 9,
+        "label": "WW Flash"
+      },
+      {
+        "key": 8,
+        "label": "MLT Flash"
+      }
+    ]
+  },
+  "wtr136f": {
+    "page": 253,
+    "commands": [
+      {
+        "key": 16,
+        "label": "Switch"
+      },
+      {
+        "key": 170,
+        "label": "Light"
+      },
+      {
+        "key": 14,
+        "label": "Demo"
+      },
+      {
+        "key": 22,
+        "label": "Steady"
+      },
+      {
+        "key": 19,
+        "label": "Glisten"
+      },
+      {
+        "key": 12,
+        "label": "Firefly"
+      },
+      {
+        "key": 25,
+        "label": "Twinkling"
+      },
+      {
+        "key": 20,
+        "label": "Random Twinkle"
+      },
+      {
+        "key": 10,
+        "label": "Chasing"
+      },
+      {
+        "key": 24,
+        "label": "2 Color Variable"
+      },
+      {
+        "key": 6,
+        "label": "Fireworks"
+      },
+      {
+        "key": 7,
+        "label": "Slow Fade"
+      },
+      {
+        "key": 21,
+        "label": "Timer 6hr"
+      },
+      {
+        "key": 9,
+        "label": "Timer 8hr"
+      },
+      {
+        "key": 8,
+        "label": "Timer 10hr"
+      }
+    ]
+  },
+  "wtr005b": {
+    "page": 254,
+    "commands": [
+      {
+        "key": 15,
+        "label": "Mode Up"
+      },
+      {
+        "key": 23,
+        "label": "Color Left"
+      },
+      {
+        "key": 14,
+        "label": "Switch"
+      },
+      {
+        "key": 22,
+        "label": "Color Right"
+      },
+      {
+        "key": 6,
+        "label": "Mode Down"
+      },
+      {
+        "key": 10,
+        "label": "TIMER"
+      }
+    ]
+  },
+  "ctr003b": {
+    "page": 255,
+    "commands": [
+      {
+        "key": 15,
+        "label": "Mode Up"
+      },
+      {
+        "key": 14,
+        "label": "Switch"
+      },
+      {
+        "key": 6,
+        "label": "Mode Down"
+      },
+      {
+        "key": 10,
+        "label": "TIMER"
+      }
+    ]
+  }
+}

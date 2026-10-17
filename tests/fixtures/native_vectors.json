@@ -1,0 +1,75 @@
+{
+  "native_sha256": "7974e293b5e959af6f35e242baf4ea8d8c27659882c2d78a09ce5c14afb493de",
+  "cases": [
+    {
+      "command": "0110ff00",
+      "packet_id": 1,
+      "payload": "6db643645d16fb6d1a1cffa8aefa9f16"
+    },
+    {
+      "command": "0110ff00",
+      "packet_id": 255,
+      "payload": "6db643645d16fb6d1ae2ffa8aefa81e8"
+    },
+    {
+      "command": "0105ff00",
+      "packet_id": 1,
+      "payload": "6db643645d16fb6d1a1cffbdaefab7aa"
+    },
+    {
+      "command": "0105ff00",
+      "packet_id": 255,
+      "payload": "6db643645d16fb6d1ae2ffbdaefaa954"
+    },
+    {
+      "command": "0105ffff",
+      "packet_id": 1,
+      "payload": "6db643645d16fb6d1a1cffbdae05cfa5"
+    },
+    {
+      "command": "0105ffff",
+      "packet_id": 255,
+      "payload": "6db643645d16fb6d1ae2ffbdae05d15b"
+    },
+    {
+      "command": "fe0eff00",
+      "packet_id": 1,
+      "payload": "6db643645d16fb6d1a1c00b6aefac346"
+    },
+    {
+      "command": "fe0eff00",
+      "packet_id": 255,
+      "payload": "6db643645d16fb6d1ae200b6aefaddb8"
+    },
+    {
+      "command": "ff0effff",
+      "packet_id": 1,
+      "payload": "6db643645d16fb6d1a1c01b6ae050055"
+    },
+    {
+      "command": "ff0effff",
+      "packet_id": 255,
+      "payload": "6db643645d16fb6d1ae201b6ae051eab"
+    },
+    {
+      "command": "fd10ff00",
+      "packet_id": 1,
+      "payload": "6db643645d16fb6d1a1c03a8aefa80f6"
+    },
+    {
+      "command": "fd10ff00",
+      "packet_id": 255,
+      "payload": "6db643645d16fb6d1ae203a8aefa9e08"
+    },
+    {
+      "command": "127e83a5",
+      "packet_id": 1,
+      "payload": "6db643645d16fb6d1a1cecc6d25f664e"
+    },
+    {
+      "command": "127e83a5",
+      "packet_id": 255,
+      "payload": "6db643645d16fb6d1ae2ecc6d25f78b0"
+    }
+  ]
+}

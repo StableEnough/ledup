@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+*.sqlite3
+*.sqlite3-journal
+LEDUP_3.7_APKPure.xapk
+.omp/

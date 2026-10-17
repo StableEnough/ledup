@@ -3,7 +3,7 @@ name = "ledup-control"
 version = "0.1.0"
 description = "Local BLE advertising control for LEDUP lights"
 requires-python = ">=3.12"
-dependencies = ["dbus-next>=0.2.3"]
+dependencies = ["dbus-next==0.2.3"]
 
 [dependency-groups]
 dev = ["unicorn>=2.1.4", "pyelftools>=0.32"]

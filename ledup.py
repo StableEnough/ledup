@@ -13,6 +13,17 @@ from pathlib import Path
 
 _BIT_REVERSE = bytes(int(f'{value:08b}'[::-1], 2) for value in range(256))
 
+_BLUEZ_ERRORS = {
+    'org.freedesktop.DBus.Error.ServiceUnknown': 'BlueZ service org.bluez is missing; use a Bluetooth-equipped Linux host with bluetoothd running',
+    'org.freedesktop.DBus.Error.NameHasNoOwner': 'BlueZ service stopped; start bluetoothd on the Bluetooth host',
+    'org.freedesktop.DBus.Error.AccessDenied': 'D-Bus denied Bluetooth access; grant this user permission through the host system-bus policy',
+    'org.bluez.Error.NotAuthorized': 'BlueZ denied advertising access; check host Bluetooth permissions',
+    'org.bluez.Error.NotPermitted': 'BlueZ cannot allocate an advertising instance; check controller power and other advertising clients',
+    'org.bluez.Error.NotSupported': 'This Bluetooth controller/BlueZ stack does not support the requested advertising',
+    'org.bluez.Error.InvalidLength': 'BlueZ rejected the advertising data length',
+    'org.bluez.Error.InvalidArguments': 'BlueZ rejected the advertisement properties; check the installed BlueZ version',
+}
+
 
 def _whiten(data: bytes, seed: int) -> bytes:
     state = [1] + [(seed >> shift) & 1 for shift in range(5, -1, -1)]
@@ -190,17 +201,7 @@ async def advertise(payload: bytes, *, adapter: str | None, duration: float) -> 
         if release in done:
             raise RuntimeError('BlueZ removed the advertisement before the requested duration')
     except DBusError as exc:
-        explanations = {
-            'org.freedesktop.DBus.Error.ServiceUnknown': 'BlueZ service org.bluez is missing; use a Bluetooth-equipped Linux host with bluetoothd running',
-            'org.freedesktop.DBus.Error.NameHasNoOwner': 'BlueZ service stopped; start bluetoothd on the Bluetooth host',
-            'org.freedesktop.DBus.Error.AccessDenied': 'D-Bus denied Bluetooth access; grant this user permission through the host system-bus policy',
-            'org.bluez.Error.NotAuthorized': 'BlueZ denied advertising access; check host Bluetooth permissions',
-            'org.bluez.Error.NotPermitted': 'BlueZ cannot allocate an advertising instance; check controller power and other advertising clients',
-            'org.bluez.Error.NotSupported': 'This Bluetooth controller/BlueZ stack does not support the requested advertising',
-            'org.bluez.Error.InvalidLength': 'BlueZ rejected the advertising data length',
-            'org.bluez.Error.InvalidArguments': 'BlueZ rejected the advertisement properties; check the installed BlueZ version',
-        }
-        primary_error = RuntimeError(f'{explanations.get(exc.type, "BlueZ advertising failed")} ({exc.type}: {exc.text})')
+        primary_error = RuntimeError(f'{_BLUEZ_ERRORS.get(exc.type, "BlueZ advertising failed")} ({exc.type}: {exc.text})')
         raise primary_error from exc
     except (OSError, EOFError) as exc:
         primary_error = RuntimeError('System D-Bus disconnected during advertising')

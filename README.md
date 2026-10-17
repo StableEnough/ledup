@@ -54,7 +54,12 @@ uv run python -m unittest discover -s tests
 uv run --group dev python tools/native_oracle.py --xapk LEDUP_3.7_APKPure.xapk --verify
 ```
 
-Ordinary tests use checked-in native fixtures and temporary SQLite databases, with no Bluetooth, root, APK, or emulator requirement. Authentication regressions launch the actual CLI against local sockets that reject authentication or disconnect mid-response. An isolated D-Bus daemon with simulated BlueZ checks that one occupied slot plus one free slot permits advertising, optional-property reads return `UnknownProperty`, writes to read-only properties return `PropertyReadOnly`, and interruption during cleanup exits 130 and closes the advertising client's bus connection without a traceback. Only that D-Bus lifecycle check is skipped if `dbus-daemon` is unavailable. The explicit oracle uses Unicorn to execute the actual ARM64 C++ encoder from the XAPK's ABI split. It verifies the native SHA-256 before using version-specific addresses, compares 2,287 cases against the port, and varies discarded allocation/stack padding across three fill patterns per case. The oracle hooks allocation/copy/delete only; CRC and whitening execute natively.
+Tests need no Bluetooth, root, APK, or emulator:
+
+- Checked-in native fixtures and temporary SQLite databases cover encoding and counters.
+- Authentication regressions launch the actual CLI against local sockets that reject authentication or disconnect mid-response.
+- An isolated D-Bus daemon with simulated BlueZ checks that one occupied slot plus one free slot permits advertising, optional-property reads return `UnknownProperty`, writes to read-only properties return `PropertyReadOnly`, and interruption during cleanup exits 130 and closes the advertising client's bus connection without a traceback. Only this check is skipped if `dbus-daemon` is unavailable.
+- The explicit oracle uses Unicorn to execute the actual ARM64 C++ encoder from the XAPK's ABI split. It verifies the native SHA-256 before using version-specific addresses, compares 2,287 cases against the port, and varies discarded allocation/stack padding across three fill patterns per case. It hooks allocation/copy/delete only; CRC and whitening execute natively.
 
 Regenerate the 14 native-only golden vectors (does not import the Python encoder):
 
@@ -62,7 +67,14 @@ Regenerate the 14 native-only golden vectors (does not import the Python encoder
 uv run --group dev python tools/native_oracle.py --xapk LEDUP_3.7_APKPure.xapk --write-vectors tests/fixtures/native_vectors.json
 ```
 
-Verified software gates: native parity, offline CLI behavior, counter isolation/rollover/concurrency and malformed-state failure, and missing-BlueZ error handling. Real-controller smoke checks also passed on an Intel USB adapter (`hci0`, BlueZ 5.82), using the **sample** `wtrtd200f` Steady command, not a detected tree product: the exact manufacturer payload reached the controller, the controller accepted a 100 ms interval, and advertising was disabled/removed after the default three-second send. Normal sends exited 0 with empty stderr; SIGINT and SIGTERM exited 130 with no traceback and restored the active advertising count to zero. An invalid adapter exited 1 without success JSON. `TxPower` remained unspecified and advertising data remained 20 bytes, including its AD wrapper.
+Verified software gates: native parity, offline CLI behavior, counter isolation/rollover/concurrency and malformed-state failure, and missing-BlueZ error handling.
+
+Real-controller smoke checks passed on an Intel USB adapter (`hci0`, BlueZ 5.82), using the **sample** `wtrtd200f` Steady command, not a detected tree product:
+
+- The exact manufacturer payload reached the controller, the controller accepted a 100 ms interval, and advertising was disabled/removed after the default three-second send.
+- Normal sends exited 0 with empty stderr; SIGINT and SIGTERM exited 130 with no traceback and restored the active advertising count to zero.
+- An invalid adapter exited 1 without success JSON.
+- `TxPower` remained unspecified and advertising data remained 20 bytes, including its AD wrapper.
 
 **Still unverified:** over-air reception/timing and physical light response. `btmon` establishes host/controller traffic, not individual RF transmissions; a separate receiver is needed for RF-byte capture and actual packet cadence. When the tree is accessible, select its actual product ID and observe steady/effect, Switch, another mode, and repeated mode commands across separate CLI invocations. Record the actual product ID and actions; support in the catalog is not proof that every product was physically tested.
 

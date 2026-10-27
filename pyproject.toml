@@ -2,7 +2,8 @@
 name = "ledup-control"
 version = "0.1.0"
 description = "Local BLE advertising control for LEDUP lights"
-requires-python = ">=3.14"
+# dbus-next 0.2.3 (unmaintained) imports typing.no_type_check_decorator, removed in 3.15; lift after moving to dbus-fast.
+requires-python = ">=3.14,<3.15"
 dependencies = ["dbus-next==0.2.3"]
 
 [dependency-groups]

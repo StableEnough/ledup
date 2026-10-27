@@ -15,6 +15,8 @@ uv run python ledup.py send --product wtrtd200f --key 5 --dry-run
 
 Choose the product ID from your controller/tree's QR code or identifier, **not its appearance**. `wtrtd200f` is an example, not a detected device. Numeric keys accept decimal or `0x` hexadecimal. Catalog labels preserve the app's meanings: **Switch is a toggle/button, not proven idempotent on/off**. Light/Clock labels describe the app's icons without inventing brightness or timer arguments. Phone-only shake selectors are excluded.
 
+To read the ID, scan the tree's QR code with any phone camera: the ID is the text after `pid=`, lowercased (this mirrors the app's parser). Without a QR code or label, run `tools/probe_products.sh --adapter hci0` near the tree: it sends Switch to each product 5 s apart; note the ID printed just before the tree toggles. This assumes lights ignore other products' commands (untested).
+
 Dry-run returns deterministic JSON without connecting to D-Bus, creating state, or transmitting. Optional `--packet-id 1 --click-count 0` overrides are dry-run only. Example Steady payload:
 
 ```json

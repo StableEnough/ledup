@@ -36,7 +36,7 @@ class LedupTests(unittest.TestCase):
             self.assertEqual(reserve_counters(state, 'wtrtd200f', 5), (2, 1))
             self.assertEqual(reserve_counters(state, 'wtrtd200f', 16), (3, 0))
             self.assertEqual(reserve_counters(state, 'ctr018f', 5), (4, 0))
-            with sqlite3.connect(state) as db:
+            with contextlib.closing(sqlite3.connect(state)) as db, db:
                 db.execute("UPDATE counters SET value=255 WHERE name='packet'")
                 db.execute("UPDATE counters SET value=65535 WHERE name='click:wtrtd200f:5'")
             self.assertEqual(reserve_counters(state, 'wtrtd200f', 5), (255, 65535))
@@ -57,14 +57,14 @@ class LedupTests(unittest.TestCase):
                                   ('click:wtrtd200f:5', -1), ('click:wtrtd200f:5', 65536),
                                   ('click:wtrtd200f:5', 1.5)]:
                 with self.subTest(name=name, invalid=invalid):
-                    with sqlite3.connect(state) as db:
+                    with contextlib.closing(sqlite3.connect(state)) as db, db:
                         db.execute("UPDATE counters SET value=2 WHERE name='packet'")
                         db.execute("UPDATE counters SET value=1 WHERE name='click:wtrtd200f:5'")
                         db.execute('UPDATE counters SET value=? WHERE name=?', (invalid, name))
                         before = db.execute('SELECT name,value FROM counters ORDER BY name').fetchall()
                     with self.assertRaises(ValueError):
                         reserve_counters(state, 'wtrtd200f', 5)
-                    with sqlite3.connect(state) as db:
+                    with contextlib.closing(sqlite3.connect(state)) as db:
                         self.assertEqual(db.execute('SELECT name,value FROM counters ORDER BY name').fetchall(), before)
             broken = Path(temp) / 'broken.sqlite3'
             broken.write_bytes(b'not a SQLite database')

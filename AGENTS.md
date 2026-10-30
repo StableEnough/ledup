@@ -11,7 +11,7 @@ uv run ruff check .                              # lint (CI runs this too)
 uv run python ledup.py send --product wtrtd200f --key 5 --dry-run   # safe: never transmits
 ```
 
-CI (`.forgejo/workflows/ci.yml`) runs `uv sync --locked --group dev`, `ruff check`, and the unittest suite. Keep `uv.lock` committed and in sync (`uv lock` after editing `pyproject.toml`).
+CI (`.github/workflows/ci.yml`, GitHub Actions) runs `uv sync --locked --group dev`, `ruff check`, and the unittest suite. Keep `uv.lock` committed and in sync (`uv lock` after editing `pyproject.toml`).
 
 ## Layout
 

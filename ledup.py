@@ -101,7 +101,7 @@ async def advertise(payload: bytes, *, adapter: str | None, duration: float) -> 
                 line += chunk
             return line[:-2].decode()
 
-        def _default_properties_handler(self, message, send_reply):
+        def _default_properties_handler(self, message, send_reply):  # ty: ignore[invalid-method-override]
             # dbus-next 0.2.3 re-raises property errors after replying, logging a traceback.
             try:
                 super()._default_properties_handler(message, send_reply)
@@ -115,19 +115,19 @@ async def advertise(payload: bytes, *, adapter: str | None, duration: float) -> 
             super().__init__('org.bluez.LEAdvertisement1')
 
         @dbus_property(access=PropertyAccess.READ)
-        def Type(self) -> 's':
+        def Type(self) -> 's':  # ty: ignore[unresolved-reference]
             return 'peripheral'
 
         @dbus_property(access=PropertyAccess.READ)
-        def ManufacturerData(self) -> 'a{qv}':
+        def ManufacturerData(self) -> 'a{qv}':  # ty: ignore[invalid-syntax-in-forward-annotation]
             return {0xfff0: Variant('ay', payload)}
 
         @dbus_property(access=PropertyAccess.READ)
-        def MinInterval(self) -> 'u':
+        def MinInterval(self) -> 'u':  # ty: ignore[unresolved-reference]
             return 100
 
         @dbus_property(access=PropertyAccess.READ)
-        def MaxInterval(self) -> 'u':
+        def MaxInterval(self) -> 'u':  # ty: ignore[unresolved-reference]
             return 100
 
         @method()
@@ -159,9 +159,9 @@ async def advertise(payload: bytes, *, adapter: str | None, duration: float) -> 
             if name == 'org.bluez' and old_owner and old_owner != new_owner:
                 bluez_lost.set()
 
-        daemon.on_name_owner_changed(owner_changed)
+        daemon.on_name_owner_changed(owner_changed)  # ty: ignore[unresolved-attribute]
         root = await bus.introspect('org.bluez', '/')
-        objects = await bus.get_proxy_object('org.bluez', '/', root).get_interface(
+        objects = await bus.get_proxy_object('org.bluez', '/', root).get_interface(  # ty: ignore[unresolved-attribute]
             'org.freedesktop.DBus.ObjectManager').call_get_managed_objects()
         candidates = {p: interfaces for p, interfaces in objects.items()
                       if 'org.bluez.LEAdvertisingManager1' in interfaces}
@@ -186,7 +186,7 @@ async def advertise(payload: bytes, *, adapter: str | None, duration: float) -> 
         info = await bus.introspect('org.bluez', selected)
         manager = bus.get_proxy_object('org.bluez', selected, info).get_interface('org.bluez.LEAdvertisingManager1')
         bus.export(path, Advertisement())
-        await manager.call_register_advertisement(path, {})
+        await manager.call_register_advertisement(path, {})  # ty: ignore[unresolved-attribute]
         registered = True
         timer = asyncio.create_task(asyncio.sleep(duration))
         release = asyncio.create_task(released.wait())
@@ -212,7 +212,7 @@ async def advertise(payload: bytes, *, adapter: str | None, duration: float) -> 
         cleanup_error = None
         try:
             if registered and not released.is_set() and not bluez_lost.is_set() and bus.connected:
-                await asyncio.wait_for(manager.call_unregister_advertisement(path), 5)
+                await asyncio.wait_for(manager.call_unregister_advertisement(path), 5)  # ty: ignore[unresolved-attribute]
         except (Exception, asyncio.CancelledError) as exc:
             cleanup_error = exc
         finally:
@@ -250,6 +250,7 @@ def _duration(value: str) -> float:
 
 async def _send(payload, adapter, duration):
     task = asyncio.current_task()
+    assert task is not None
     loop = asyncio.get_running_loop()
     for sig in (signal.SIGINT, signal.SIGTERM):
         loop.add_signal_handler(sig, task.cancel)

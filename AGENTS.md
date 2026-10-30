@@ -8,10 +8,11 @@ Local BLE advertising control for LEDUP lights (Python CLI, `ledup.py`). Read `R
 uv sync --group dev                              # install deps (Python 3.14 only)
 uv run python -m unittest discover -s tests -v   # tests; no Bluetooth/root/APK needed
 uv run ruff check .                              # lint (CI runs this too)
+uv run ty check                                  # type check ledup.py + tools/ (CI runs this too)
 uv run python ledup.py send --product wtrtd200f --key 5 --dry-run   # safe: never transmits
 ```
 
-CI (`.github/workflows/ci.yml`, GitHub Actions) runs `uv sync --locked --group dev`, `ruff check`, and the unittest suite. Keep `uv.lock` committed and in sync (`uv lock` after editing `pyproject.toml`).
+CI (`.github/workflows/ci.yml`, GitHub Actions) runs `uv sync --locked --group dev`, `ruff check`, `ty check`, and the unittest suite. Keep `uv.lock` committed and in sync (`uv lock` after editing `pyproject.toml`).
 
 ## Layout
 
@@ -29,6 +30,6 @@ CI (`.github/workflows/ci.yml`, GitHub Actions) runs `uv sync --locked --group d
 - Python is capped at `>=3.14,<3.15` because `dbus-next==0.2.3` breaks on 3.15. Renovate holds Python below 3.15 as well; lift both together when migrating to `dbus-fast`.
 - Do not change the encoder, counters, or `commands.json` semantics without re-verifying against `native_vectors.json`, and keep `PROTOCOL.md` in sync.
 - Counters are committed before advertising, including failed attempts; this is intentional.
-- Ruff ignores `F821`/`F722`/`UP037` because `dbus-next` annotations are D-Bus signature strings (`'s'`, `'u'`), not types. Do not "fix" them.
+- Ruff ignores `F821`/`F722`/`UP037` because `dbus-next` annotations are D-Bus signature strings (`'s'`, `'u'`), not types. Do not "fix" them. For the same reason `ledup.py` carries targeted `# ty: ignore[...]` comments on those annotations and on dbus-next's dynamic proxy methods (`call_*`, `on_*`); `tests/` is excluded from `ty` because it passes invalid types on purpose.
 - Style: match the surrounding code (single quotes in `ledup.py`, terse comments). No formatter is enforced; do not reformat whole files.
 - Claims in docs must match what was actually verified; keep the README's "Still unverified" section honest.

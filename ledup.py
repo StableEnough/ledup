@@ -10,7 +10,6 @@ import sqlite3
 import sys
 from pathlib import Path
 
-
 _BIT_REVERSE = bytes(int(f'{value:08b}'[::-1], 2) for value in range(256))
 
 _BLUEZ_ERRORS = {
@@ -147,7 +146,7 @@ async def advertise(payload: bytes, *, adapter: str | None, duration: float) -> 
             await asyncio.wait_for(bus.connect(), 10)
         except AuthError as exc:
             raise RuntimeError('System D-Bus authentication rejected; check this user\'s system-bus access permissions') from exc
-        except (OSError, EOFError, asyncio.TimeoutError) as exc:
+        except (TimeoutError, OSError, EOFError) as exc:
             raise RuntimeError('Cannot connect to the system D-Bus; run on a Linux host with BlueZ and Bluetooth hardware') from exc
         disconnected = asyncio.create_task(bus.wait_for_disconnect())
         pending.append(disconnected)

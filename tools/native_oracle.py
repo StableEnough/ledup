@@ -3,17 +3,25 @@ import argparse
 import hashlib
 import io
 import json
-from pathlib import Path
 import random
 import sys
 import zipfile
+from pathlib import Path
 
 from elftools.elf.elffile import ELFFile
-from unicorn import Uc, UcError, UC_ARCH_ARM64, UC_MODE_ARM, UC_HOOK_CODE
+from unicorn import UC_ARCH_ARM64, UC_HOOK_CODE, UC_MODE_ARM, Uc, UcError
 from unicorn.arm64_const import (
-    UC_ARM64_REG_X0, UC_ARM64_REG_X1, UC_ARM64_REG_X2, UC_ARM64_REG_X3,
-    UC_ARM64_REG_X4, UC_ARM64_REG_X5, UC_ARM64_REG_LR, UC_ARM64_REG_PC,
-    UC_ARM64_REG_SP, UC_ARM64_REG_TPIDR_EL0, UC_ARM64_REG_CPACR_EL1,
+    UC_ARM64_REG_CPACR_EL1,
+    UC_ARM64_REG_LR,
+    UC_ARM64_REG_PC,
+    UC_ARM64_REG_SP,
+    UC_ARM64_REG_TPIDR_EL0,
+    UC_ARM64_REG_X0,
+    UC_ARM64_REG_X1,
+    UC_ARM64_REG_X2,
+    UC_ARM64_REG_X3,
+    UC_ARM64_REG_X4,
+    UC_ARM64_REG_X5,
 )
 
 ROOT = Path(__file__).resolve().parents[1]

@@ -7,7 +7,16 @@ requires-python = ">=3.14,<3.15"
 dependencies = ["dbus-next==0.2.3"]
 
 [dependency-groups]
-dev = ["unicorn>=2.1.4", "pyelftools>=0.32"]
+dev = ["unicorn>=2.1.4", "pyelftools>=0.32", "ruff>=0.16"]
 
 [tool.uv]
 package = false
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = [
+    "E501",   # long lines are intentional (error table, docs)
+    "F821",   # dbus-next annotations are D-Bus signatures ('s', 'u', 'b'), not types
+    "F722",
+    "UP037",  # same: quotes around signature annotations must stay
+]

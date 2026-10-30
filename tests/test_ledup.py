@@ -3,13 +3,13 @@ import concurrent.futures
 import contextlib
 import json
 import os
-from pathlib import Path
 import shutil
 import signal
 import sqlite3
 import sys
 import tempfile
 import unittest
+from pathlib import Path
 
 from ledup import encode_payload, reserve_counters
 

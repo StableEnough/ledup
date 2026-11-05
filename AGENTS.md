@@ -28,7 +28,7 @@ CI (`.github/workflows/ci.yml`, GitHub Actions) runs `uv sync --locked --group d
 - **Never transmit in tests, examples, or automation.** Use `--dry-run`. `send` without it broadcasts BLE advertisements that can toggle real lights in range, and sends are not idempotent (no retries by design).
 - Do not run `tools/probe_products.sh` without `--dry-run` unless the user asks.
 - Do not commit the XAPK/APK (gitignored) or any `*.sqlite3` state.
-- Python is capped at `>=3.14,<3.15` because `dbus-next==0.2.3` breaks on 3.15. Renovate holds Python below 3.15 as well; lift both together when migrating to `dbus-fast`.
+- Python is capped at `>=3.14,<3.15` because `dbus-next==0.2.3` breaks on 3.15. Dependabot (`.github/dependabot.yml`) does not bump `requires-python` or `.python-version`; lift both together when migrating to `dbus-fast`.
 - Do not change the encoder, counters, or `commands.json` semantics without re-verifying against `native_vectors.json`, and keep `PROTOCOL.md` in sync.
 - Counters are committed before advertising, including failed attempts; this is intentional.
 - Ruff ignores `F821`/`F722`/`UP037` because `dbus-next` annotations are D-Bus signature strings (`'s'`, `'u'`), not types. Do not "fix" them. For the same reason `ledup.py` carries targeted `# ty: ignore[...]` comments on those annotations and on dbus-next's dynamic proxy methods (`call_*`, `on_*`); `tests/` is excluded from `ty` because it passes invalid types on purpose.

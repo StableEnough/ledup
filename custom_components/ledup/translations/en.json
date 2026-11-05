@@ -9,14 +9,23 @@
           "relay": "ESPHome relay action"
         },
         "data_description": {
-          "product": "Text after pid= in the light's QR code, lowercased.",
+          "product": "Text after pid= in the light's QR code, lowercased. Unknown? Choose the first option to find it by toggling the lights.",
           "relay": "A Bluetooth proxy running esphome/ledup.yaml, near the lights."
+        }
+      },
+      "probe": {
+        "title": "Finding your product ({number}/{total})",
+        "description": "Sent Switch for **{product}**. Did your lights just toggle (on to off, or off to on)?\n\nIf more than one product toggles them, the first one you confirm is used.",
+        "menu_options": {
+          "probe_found": "Yes, that's my lights",
+          "probe_next": "No, try the next product"
         }
       }
     },
     "abort": {
       "already_configured": "This product is already configured.",
-      "no_relays": "No ESPHome relay found. Add esphome/ledup.yaml from the LEDUP README to a Bluetooth proxy, install it, then try again."
+      "no_relays": "No ESPHome relay found. Add esphome/ledup.yaml from the LEDUP README to a Bluetooth proxy, install it, then try again.",
+      "not_found": "No product toggled the lights. Check the relay is near the lights and powered, then try again."
     }
   }
 }

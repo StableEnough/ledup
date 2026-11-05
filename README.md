@@ -54,7 +54,7 @@ The `custom_components/ledup` integration exposes one button per catalog command
 
 1. On an ESP32 already running `bluetooth_proxy` with the ESP-IDF framework, add the contents of [`esphome/ledup.yaml`](esphome/ledup.yaml) to its config (or reference it as a [package](https://esphome.io/components/packages/)) and install. This adds the action `esphome.<node>_ledup_advertise`.
 2. In HACS, add `https://github.com/StableEnough/ledup` as a custom repository (category **Integration**), install **LEDUP**, and restart Home Assistant.
-3. Add the **LEDUP** integration: pick your product ID and the relay action. Add one entry per product.
+3. Add the **LEDUP** integration: pick your product ID and the relay action. Add one entry per product. No product ID? Choose **I don't know** instead: setup sends Switch for each product in turn (up to 16 real toggles) and asks whether the lights toggled; the first **Yes** is saved.
 
 Each button press reserves counters (stored in Home Assistant's `.storage/ledup_counters`, separate from the CLI's SQLite file) and has the ESP advertise the payload non-connectably at a 100 ms interval for 3 s; a new press restarts the window. Buttons are stateless, like the app: Switch is still a toggle. The ESP sends the whole advertising data itself, including the Flags structure Linux/Android add automatically (see [PROTOCOL.md](PROTOCOL.md#4-bluetooth-advertising-transport)).
 

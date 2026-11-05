@@ -33,15 +33,18 @@ class LedupButton(ButtonEntity):
 
     def __init__(self, entry: ConfigEntry, device: DeviceInfo, item: dict) -> None:
         self._product, self._key, self._relay = entry.data['product'], item['key'], entry.data['relay']
-        self._page = CATALOG[self._product]['page']
         self._attr_name = item['label']
         self._attr_unique_id = f'{self._product}_{self._key}'
         self._attr_device_info = device
 
     async def async_press(self) -> None:
-        # No retries: Switch is a toggle, so a repeat can undo the press.
-        store, counters = await _counters(self.hass)
-        packet, click = reserve(counters, self._product, self._key)
-        await store.async_save(counters)  # counters persist before RF, like the CLI
-        payload = encode_payload(command_bytes(self._page, self._key, click), packet)
-        await self.hass.services.async_call('esphome', self._relay, {'adv': list(AD_HEADER + payload)}, blocking=True)
+        await async_send(self.hass, self._relay, self._product, self._key)
+
+
+async def async_send(hass: HomeAssistant, relay: str, product: str, key: int) -> None:
+    # No retries: Switch is a toggle, so a repeat can undo the press.
+    store, counters = await _counters(hass)
+    packet, click = reserve(counters, product, key)
+    await store.async_save(counters)  # counters persist before RF, like the CLI
+    payload = encode_payload(command_bytes(CATALOG[product]['page'], key, click), packet)
+    await hass.services.async_call('esphome', relay, {'adv': list(AD_HEADER + payload)}, blocking=True)

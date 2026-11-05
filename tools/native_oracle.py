@@ -141,7 +141,7 @@ def main():
         print(f'Wrote {len(vectors)} native-only vectors; discarded-prefix fill independence verified')
         return
     sys.path.insert(0, str(ROOT))
-    from ledup import encode_payload
+    from custom_components.ledup.protocol import encode_payload
     fixtures = json.loads((ROOT / 'tests/fixtures/native_vectors.json').read_text())
     if fixtures['native_sha256'] != NATIVE_SHA256:
         raise ValueError('Fixture native hash mismatch')
@@ -153,7 +153,7 @@ def main():
     cases += [(c, p) for c in COMMANDS for p in range(1, 256)]
     rng = random.Random(0)
     cases += [(rng.randbytes(4), rng.randint(1, 255)) for _ in range(256)]
-    catalog = json.loads((ROOT / 'commands.json').read_text())
+    catalog = json.loads((ROOT / 'custom_components/ledup/commands.json').read_text())
     cases += [(bytes([product['page'], item['key'], 255, 0]), 1)
               for product in catalog.values() for item in product['commands']]
     for command, packet in cases:

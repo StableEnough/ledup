@@ -1,6 +1,6 @@
 # LEDUP script control
 
-Python control for the LEDUP 3.7 app's 16 product types, using local Linux BLE manufacturer advertising. No pairing, device MAC, GATT connection, cloud service, or Home Assistant component is required.
+Python control for the LEDUP 3.7 app's 16 product types, using BLE manufacturer advertising from a local Linux host or, through [Home Assistant](#home-assistant), an ESPHome Bluetooth proxy. No pairing, device MAC, GATT connection, or cloud service is required.
 
 ## Try without Bluetooth
 
@@ -48,6 +48,16 @@ Packet and per-product/key click counters persist atomically in `${XDG_STATE_HOM
 
 For Python callers, `encode_payload(command: bytes, packet_id: int) -> bytes` is pure stdlib and returns exactly 16 bytes. `await advertise(payload, adapter=None, duration=3.0)` transmits an already encoded payload; callers using it directly must manage counters themselves.
 
+## Home Assistant
+
+The `custom_components/ledup` integration exposes one button per catalog command and transmits through an ESP32 running ESPHome (Home Assistant's own Bluetooth stack can only scan, not advertise).
+
+1. On an ESP32 already running `bluetooth_proxy` with the ESP-IDF framework, add the contents of [`esphome/ledup.yaml`](esphome/ledup.yaml) to its config (or reference it as a [package](https://esphome.io/components/packages/)) and install. This adds the action `esphome.<node>_ledup_advertise`.
+2. In HACS, add `https://github.com/StableEnough/ledup` as a custom repository (category **Integration**), install **LEDUP**, and restart Home Assistant.
+3. Add the **LEDUP** integration: pick your product ID and the relay action. Add one entry per product.
+
+Each button press reserves counters (stored in Home Assistant's `.storage/ledup_counters`, separate from the CLI's SQLite file) and has the ESP advertise the payload non-connectably at a 100 ms interval for 3 s; a new press restarts the window. Buttons are stateless, like the app: Switch is still a toggle. The ESP sends the whole advertising data itself, including the Flags structure Linux/Android add automatically (see [PROTOCOL.md](PROTOCOL.md#4-bluetooth-advertising-transport)).
+
 ## Verification
 
 ```sh
@@ -78,13 +88,13 @@ Real-controller smoke checks passed on an Intel USB adapter (`hci0`, BlueZ 5.82)
 - An invalid adapter exited 1 without success JSON.
 - `TxPower` remained unspecified and advertising data remained 20 bytes, including its AD wrapper.
 
-**Still unverified:** over-air reception/timing and physical light response. `btmon` establishes host/controller traffic, not individual RF transmissions; a separate receiver is needed for RF-byte capture and actual packet cadence. When the tree is accessible, select its actual product ID and observe steady/effect, Switch, another mode, and repeated mode commands across separate CLI invocations. Record the actual product ID and actions; support in the catalog is not proof that every product was physically tested.
+**Still unverified:** over-air reception/timing and physical light response. The Home Assistant integration was only exercised in a test Home Assistant instance with a mocked relay action, and `esphome/ledup.yaml` only compiled: advertising from a real ESP32 alongside `bluetooth_proxy` scanning, and the Flags-first payload placement, are untested. `btmon` establishes host/controller traffic, not individual RF transmissions; a separate receiver is needed for RF-byte capture and actual packet cadence. When the tree is accessible, select its actual product ID and observe steady/effect, Switch, another mode, and repeated mode commands across separate CLI invocations. Record the actual product ID and actions; support in the catalog is not proof that every product was physically tested.
 
 ## Protocol provenance
 
-For a port to another language, use [PROTOCOL.md](PROTOCOL.md): the complete byte layout, CRC and whitening pseudocode, counter rules, advertising transport, worked intermediate values, and native-oracle provenance. Reuse `commands.json` and `tests/fixtures/native_vectors.json` directly; no APK decompilation is required.
+For a port to another language, use [PROTOCOL.md](PROTOCOL.md): the complete byte layout, CRC and whitening pseudocode, counter rules, advertising transport, worked intermediate values, and native-oracle provenance. Reuse `custom_components/ledup/commands.json` and `tests/fixtures/native_vectors.json` directly; no APK decompilation is required.
 
-Source: supplied `LEDUP_3.7_APKPure.xapk`, decompiled `LEAdvertiser`, `KeyItem`, and `KeyHelper`, plus ARM64 `libnativelib.so` SHA-256 `7974e293b5e959af6f35e242baf4ea8d8c27659882c2d78a09ce5c14afb493de`. Static catalog data is in `commands.json`; the APK is not needed at runtime.
+Source: supplied `LEDUP_3.7_APKPure.xapk`, decompiled `LEAdvertiser`, `KeyItem`, and `KeyHelper`, plus ARM64 `libnativelib.so` SHA-256 `7974e293b5e959af6f35e242baf4ea8d8c27659882c2d78a09ce5c14afb493de`. Static catalog data is in `custom_components/ledup/commands.json`; the APK is not needed at runtime.
 
 Commands are `[page, key, ff, click_low_byte]`; the native input body is `ff ff ff packet_id command`, address `5a 00 10`, manufacturer ID `0xfff0` (65520). The encoder uses CRC-16/0x1021 and fixed whitening seeds 0x3f and 0x25; the outer stream includes 120 discarded prefix bits. These are not encryption/authentication. The JNI wrapper adds prefix offset 15; TLS+40 is a stack canary, not randomness.
 

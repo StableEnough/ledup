@@ -18,3 +18,13 @@ jobs:
       - run: uv run ruff check .
       - run: uv run ty check
       - run: uv run python -m unittest discover -s tests -v
+
+  home-assistant:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: home-assistant/actions/hassfest@master
+      - uses: hacs/action@main
+        with:
+          category: integration

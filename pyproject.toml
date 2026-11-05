@@ -28,4 +28,4 @@ ignore = [
 
 [tool.ty.src]
 # tests deliberately pass invalid types and poke dbus-next mocks
-include = ["ledup.py", "tools"]
+include = ["ledup.py", "tools", "custom_components/ledup/protocol.py"]

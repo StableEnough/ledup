@@ -1,0 +1,30 @@
+# LEDUP relay for an ESP32 already running bluetooth_proxy (ESP-IDF framework).
+# Adds the Home Assistant action esphome.<node>_ledup_advertise used by the LEDUP integration.
+api:
+  actions:
+    - action: ledup_advertise
+      variables:
+        adv: int[]          # full AD bytes, sent as-is: 02 01 06 13 ff f0 ff + 16-byte payload
+      then:
+        - lambda: |-
+            static esp_ble_adv_params_t params = {
+              .adv_int_min = 0xA0,  // 100 ms (0.625 ms units), matches the CLI
+              .adv_int_max = 0xA0,
+              .adv_type = ADV_TYPE_NONCONN_IND,
+              .own_addr_type = BLE_ADDR_TYPE_PUBLIC,
+              .channel_map = ADV_CHNL_ALL,
+              .adv_filter_policy = ADV_FILTER_ALLOW_SCAN_ANY_CON_ANY,
+            };
+            std::vector<uint8_t> raw(adv.begin(), adv.end());
+            esp_ble_gap_stop_advertising();
+            esp_err_t err = esp_ble_gap_config_adv_data_raw(raw.data(), raw.size());
+            if (err == ESP_OK) err = esp_ble_gap_start_advertising(&params);
+            if (err != ESP_OK) ESP_LOGW("ledup", "advertise failed: %s", esp_err_to_name(err));
+        - script.execute: ledup_stop
+
+script:
+  - id: ledup_stop
+    mode: restart           # a new press extends the window instead of cutting it
+    then:
+      - delay: 3s           # CLI default duration
+      - lambda: esp_ble_gap_stop_advertising();

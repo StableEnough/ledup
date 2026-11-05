@@ -12,12 +12,13 @@ uv run ty check                                  # type check ledup.py + tools/ 
 uv run python ledup.py send --product wtrtd200f --key 5 --dry-run   # safe: never transmits
 ```
 
-CI (`.github/workflows/ci.yml`, GitHub Actions) runs `uv sync --locked --group dev`, `ruff check`, `ty check`, and the unittest suite. Keep `uv.lock` committed and in sync (`uv lock` after editing `pyproject.toml`).
+CI (`.github/workflows/ci.yml`, GitHub Actions) runs `uv sync --locked --group dev`, `ruff check`, `ty check`, the unittest suite, hassfest, and the HACS validator. Keep `uv.lock` committed and in sync (`uv lock` after editing `pyproject.toml`).
 
 ## Layout
 
-- `ledup.py`: the whole CLI: payload encoder (CRC + whitening), SQLite counters, BlueZ advertising over D-Bus.
-- `commands.json`: static product/command catalog extracted from the app; no APK needed at runtime.
+- `ledup.py`: the CLI: SQLite counters, BlueZ advertising over D-Bus.
+- `custom_components/ledup/`: HACS integration (buttons sending through an ESPHome relay action). `protocol.py` holds the encoder (CRC + whitening), catalog loader, and counter math shared with the CLI; `commands.json` is the static product/command catalog extracted from the app.
+- `esphome/ledup.yaml`: ESPHome snippet adding the `ledup_advertise` relay action to a Bluetooth proxy.
 - `tests/`: unittest suite; `tests/fixtures/native_vectors.json` holds golden vectors from the native encoder.
 - `tools/native_oracle.py`: runs the app's ARM64 encoder under Unicorn to verify the Python port. Needs the untracked `LEDUP_3.7_APKPure.xapk`.
 - `tools/probe_products.sh`: transmits Switch to every product to find an unknown product ID. Real hardware only.

@@ -10,7 +10,12 @@ import sqlite3
 import sys
 from pathlib import Path
 
-_BIT_REVERSE = bytes(int(f'{value:08b}'[::-1], 2) for value in range(256))
+from custom_components.ledup.protocol import (
+    CATALOG,
+    command_bytes,
+    encode_payload,
+    reserve,
+)
 
 _BLUEZ_ERRORS = {
     'org.freedesktop.DBus.Error.ServiceUnknown': 'BlueZ service org.bluez is missing; use a Bluetooth-equipped Linux host with bluetoothd running',
@@ -24,37 +29,6 @@ _BLUEZ_ERRORS = {
 }
 
 
-def _whiten(data: bytes, seed: int) -> bytes:
-    state = [1] + [(seed >> shift) & 1 for shift in range(5, -1, -1)]
-    result = bytearray(data)
-    for index in range(len(result)):
-        for bit in range(8):
-            s0, s1, s2, s3, s4, s5, s6 = state
-            result[index] ^= s6 << bit
-            state = [s6, s0, s1, s2, s3 ^ s6, s4, s5]
-    return bytes(result)
-
-
-def encode_payload(command: bytes, packet_id: int) -> bytes:
-    """Return 16 manufacturer bytes, matching LEDUP 3.7's native encoder."""
-    if not isinstance(command, bytes) or len(command) != 4:
-        raise ValueError('command must be exactly four bytes')
-    if type(packet_id) is not int or not 1 <= packet_id <= 255:
-        raise ValueError('packet_id must be an integer in 1..255')
-    address = b'\x5a\x00\x10'
-    body = b'\xff\xff\xff' + bytes([packet_id]) + command
-    crc = 0xffff
-    for value in address[::-1] + body.translate(_BIT_REVERSE):
-        crc ^= value << 8
-        for _ in range(8):
-            crc = ((crc << 1) ^ (0x1021 if crc & 0x8000 else 0)) & 0xffff
-    crc = ((_BIT_REVERSE[crc & 255] << 8) | _BIT_REVERSE[crc >> 8]) ^ 0xffff
-    prefix = b'\x71\x0f\x55'.translate(_BIT_REVERSE)
-    tail = address[::-1].translate(_BIT_REVERSE) + body + crc.to_bytes(2, 'little')
-    # The discarded prefix still consumes 120 bits of the outer whitening stream.
-    return _whiten(bytes(15) + prefix + _whiten(tail, 0x3f), 0x25)[15:]
-
-
 def reserve_counters(state: Path, product: str, key: int) -> tuple[int, int]:
     """Atomically reserve counters before RF; a failed send still consumes them."""
     state.parent.mkdir(parents=True, exist_ok=True)
@@ -62,19 +36,17 @@ def reserve_counters(state: Path, product: str, key: int) -> tuple[int, int]:
         with connection:
             connection.execute('BEGIN IMMEDIATE')
             connection.execute('CREATE TABLE IF NOT EXISTS counters(name TEXT PRIMARY KEY, value INTEGER NOT NULL)')
-            click_name = f'click:{product}:{key}'
-            values = {}
-            for name, low, high, default in (('packet', 1, 255, 1), (click_name, 0, 65535, 0)):
-                row = connection.execute('SELECT value FROM counters WHERE name = ?', (name,)).fetchone()
-                value = default if row is None else row[0]
-                if type(value) is not int or not low <= value <= high:
-                    raise ValueError(f'Corrupt counter {name!r} in {state}: expected {low}..{high}, got {value!r}')
-                values[name] = value
-                connection.execute(
-                    'INSERT INTO counters(name, value) VALUES (?, ?) ON CONFLICT(name) DO UPDATE SET value=excluded.value',
-                    (name, low if value == high else value + 1),
-                )
-    return values['packet'], values[click_name]
+            names = ('packet', f'click:{product}:{key}')
+            counters = dict(connection.execute('SELECT name, value FROM counters WHERE name IN (?, ?)', names).fetchall())
+            try:
+                result = reserve(counters, product, key)
+            except ValueError as exc:
+                raise ValueError(f'{exc} in {state}') from None
+            connection.executemany(
+                'INSERT INTO counters(name, value) VALUES (?, ?) ON CONFLICT(name) DO UPDATE SET value=excluded.value',
+                [(name, counters[name]) for name in names],
+            )
+    return result
 
 
 async def advertise(payload: bytes, *, adapter: str | None, duration: float) -> None:
@@ -278,7 +250,7 @@ def main(argv=None) -> int:
     send.add_argument('--state', type=Path)
     args = parser.parse_args(argv)
     try:
-        catalog = json.loads(Path(__file__).with_name('commands.json').read_text())
+        catalog = CATALOG
         if args.action == 'products':
             for product, data in catalog.items():
                 print(product, f'page={data["page"]}', sep='\t')
@@ -304,7 +276,7 @@ def main(argv=None) -> int:
         else:
             state = args.state or Path(os.environ.get('XDG_STATE_HOME') or Path.home() / '.local/state') / 'ledup/counters.sqlite3'
             packet, click = reserve_counters(state, args.product, args.key)
-        command = bytes([product['page'], args.key, 255, click & 255])
+        command = command_bytes(product['page'], args.key, click)
         payload = encode_payload(command, packet)
         if not args.dry_run:
             asyncio.run(_send(payload, args.adapter, args.duration))

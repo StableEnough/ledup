@@ -1,0 +1,20 @@
+{
+  "domain": "ledup",
+  "name": "LEDUP",
+  "categories": [
+    "lighting.led_strips_controllers"
+  ],
+  "codeowners": [
+    "@StableEnough"
+  ],
+  "config_flow": true,
+  "dependencies": [
+    "esphome"
+  ],
+  "documentation": "https://github.com/StableEnough/ledup#home-assistant",
+  "integration_type": "device",
+  "iot_class": "assumed_state",
+  "issue_tracker": "https://github.com/StableEnough/ledup/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

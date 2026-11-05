@@ -11,7 +11,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from ledup import encode_payload, reserve_counters
+from custom_components.ledup.protocol import encode_payload
+from ledup import reserve_counters
 
 
 class LedupTests(unittest.TestCase):

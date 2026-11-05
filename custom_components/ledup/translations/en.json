@@ -1,0 +1,22 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add LEDUP lights",
+        "description": "Commands are broadcast: every light of this product in range of the relay reacts.",
+        "data": {
+          "product": "Product ID",
+          "relay": "ESPHome relay action"
+        },
+        "data_description": {
+          "product": "Text after pid= in the light's QR code, lowercased.",
+          "relay": "A Bluetooth proxy running esphome/ledup.yaml, near the lights."
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "This product is already configured.",
+      "no_relays": "No ESPHome relay found. Add esphome/ledup.yaml from the LEDUP README to a Bluetooth proxy, install it, then try again."
+    }
+  }
+}

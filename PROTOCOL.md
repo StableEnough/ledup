@@ -1,6 +1,6 @@
 # LEDUP 3.7 wire protocol and porting guide
 
-This document specifies the reconstructed command encoding independently of Python. A new implementation needs this document and `commands.json`; use `tests/fixtures/native_vectors.json` as its byte-for-byte acceptance data. No APK decompilation, Android runtime, or native library is needed to implement or run a port.
+This document specifies the reconstructed command encoding independently of Python. A new implementation needs this document and `commands.json` (in `custom_components/ledup/`); use `tests/fixtures/native_vectors.json` as its byte-for-byte acceptance data. No APK decompilation, Android runtime, or native library is needed to implement or run a port.
 
 Scope: the supplied LEDUP **3.7** app's command-transmit path. Encoding has been compared with actual ARM64 native execution; physical reception by the lights has **not** been tested. Catalog entries are app-supported commands, not claims that all products have been tested. Other app/firmware versions may differ.
 
@@ -155,6 +155,8 @@ If an API accepts manufacturer ID and bytes separately, pass `{0xfff0: payload}`
 ```
 
 `13` is the length (19 bytes follow: type + company ID + payload), `ff` is the Manufacturer Specific Data AD type, `f0 ff` is the little-endian company ID, and the last 16 bytes are the encoded payload. This is **one AD structure, not the complete BLE radio packet**; the platform supplies other required fields. The Android data builder does not add a local name, service UUID, or TX-power AD field. Do not duplicate `f0 ff` inside the manufacturer payload.
+
+Position matters when you build the whole advertising data yourself (raw-AD APIs such as ESP-IDF `esp_ble_gap_config_adv_data_raw`). The outer seed `0x25` is the BLE whitening seed for advertising channel 37, and the 31-byte buffer lines up with a legacy advertising PDU: 2-byte header, 6-byte AdvA, then 23 bytes of AD data. The payload lands at PDU offset 15 only if a 3-byte Flags structure precedes the manufacturer structure, which Android and BlueZ add automatically. Raw-AD senders must therefore send `02 01 06 13 ff f0 ff` + payload (23 bytes). This placement is inferred from the seed and offsets, **not verified over the air**.
 
 For Linux use BlueZ `org.bluez.LEAdvertisingManager1` on the system bus, export `org.bluez.LEAdvertisement1`, and register/unregister that object. `ManufacturerData` has D-Bus signature `a{qv}`; value `0xfff0` maps to an `ay` variant holding the 16 bytes. Optional `MinInterval`/`MaxInterval` properties are uint32 milliseconds. A `Release()` notification means BlueZ already unregistered the object. Early release, service/bus loss, denied access, or registration failure is not a successful send. A success result means the advertising lifecycle completed, not that a light changed state.
 

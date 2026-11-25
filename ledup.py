@@ -73,7 +73,7 @@ async def advertise(payload: bytes, *, adapter: str | None, duration: float) -> 
                 line += chunk
             return line[:-2].decode()
 
-        def _default_properties_handler(self, message, send_reply):  # ty: ignore[invalid-method-override]
+        def _default_properties_handler(self, message, send_reply):  # ty: ignore[lost-keyword-for-regular-parameter]
             # dbus-next 0.2.3 re-raises property errors after replying, logging a traceback.
             try:
                 super()._default_properties_handler(message, send_reply)
@@ -131,9 +131,9 @@ async def advertise(payload: bytes, *, adapter: str | None, duration: float) -> 
             if name == 'org.bluez' and old_owner and old_owner != new_owner:
                 bluez_lost.set()
 
-        daemon.on_name_owner_changed(owner_changed)  # ty: ignore[unresolved-attribute]
+        daemon.on_name_owner_changed(owner_changed)  # ty: ignore[missing-attribute]
         root = await bus.introspect('org.bluez', '/')
-        objects = await bus.get_proxy_object('org.bluez', '/', root).get_interface(  # ty: ignore[unresolved-attribute]
+        objects = await bus.get_proxy_object('org.bluez', '/', root).get_interface(  # ty: ignore[missing-attribute]
             'org.freedesktop.DBus.ObjectManager').call_get_managed_objects()
         candidates = {p: interfaces for p, interfaces in objects.items()
                       if 'org.bluez.LEAdvertisingManager1' in interfaces}
@@ -158,7 +158,7 @@ async def advertise(payload: bytes, *, adapter: str | None, duration: float) -> 
         info = await bus.introspect('org.bluez', selected)
         manager = bus.get_proxy_object('org.bluez', selected, info).get_interface('org.bluez.LEAdvertisingManager1')
         bus.export(path, Advertisement())
-        await manager.call_register_advertisement(path, {})  # ty: ignore[unresolved-attribute]
+        await manager.call_register_advertisement(path, {})  # ty: ignore[missing-attribute]
         registered = True
         timer = asyncio.create_task(asyncio.sleep(duration))
         release = asyncio.create_task(released.wait())
@@ -184,7 +184,7 @@ async def advertise(payload: bytes, *, adapter: str | None, duration: float) -> 
         cleanup_error = None
         try:
             if registered and not released.is_set() and not bluez_lost.is_set() and bus.connected:
-                await asyncio.wait_for(manager.call_unregister_advertisement(path), 5)  # ty: ignore[unresolved-attribute]
+                await asyncio.wait_for(manager.call_unregister_advertisement(path), 5)  # ty: ignore[missing-attribute]
         except (Exception, asyncio.CancelledError) as exc:
             cleanup_error = exc
         finally:
